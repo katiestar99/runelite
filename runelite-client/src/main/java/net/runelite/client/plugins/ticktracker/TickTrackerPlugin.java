@@ -2,23 +2,23 @@
 package net.runelite.client.plugins.ticktracker;
 
 import com.google.inject.Provides;
+import java.util.Date;
 import javax.inject.Inject;
 import lombok.Getter;
-import net.runelite.api.*;
+import net.runelite.api.ChatMessageType;
+import net.runelite.api.Client;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
+import net.runelite.client.chat.ChatMessageManager;
 import net.runelite.client.chat.QueuedMessage;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.chat.ChatMessageManager;
 import net.runelite.client.ui.overlay.OverlayManager;
-import java.util.Date;
-import net.runelite.api.Client;
 
 @PluginDescriptor(
 	name = "Tick tracker",
