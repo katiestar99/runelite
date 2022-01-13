@@ -34,16 +34,17 @@ public class TickTrackerPlugin extends Plugin
 	private void sendChatMessage(String chatMessage)
 	{
 		final String message = new ChatMessageBuilder()
-				.append(ChatColorType.HIGHLIGHT)
-				.append(chatMessage)
-				.build();
+			.append(ChatColorType.HIGHLIGHT)
+			.append(chatMessage)
+			.build();
 
 		chatMessageManager.queue(
-				QueuedMessage.builder()
-						.type(ChatMessageType.CONSOLE)
-						.runeLiteFormattedMessage(message)
-						.build());
+			QueuedMessage.builder()
+				.type(ChatMessageType.CONSOLE)
+				.runeLiteFormattedMessage(message)
+				.build());
 	}
+
 	@Inject
 	private Client client;
 
@@ -86,52 +87,68 @@ public class TickTrackerPlugin extends Plugin
 	int disregardCounter = 0;
 
 	@Provides
-	TickTrackerPluginConfiguration provideConfig(ConfigManager configManager) {
+	TickTrackerPluginConfiguration provideConfig(ConfigManager configManager)
+	{
 		return configManager.getConfig(TickTrackerPluginConfiguration.class);
 	}
 
 	@Override
-	protected void shutDown() {
+	protected void shutDown()
+	{
 		overlayManager.remove(overlay);
 	}
+
 	@Override
-	protected void startUp() throws Exception {
+	protected void startUp() throws Exception
+	{
 		overlayManager.add(overlay);
 	}
 
 	@Subscribe
-	public void onGameTick(GameTick tick) {
-			if (disregardCounter < 10) {
-				disregardCounter += 1; //waiting 10 ticks, because ticks upon login or hopping are funky
-			}
-			else {
-				long tickTime = new Date().getTime();
-				int tickDiff = (int) (tickTime - lastTickTime);
-				if (tickDiff > 2500) {
-					tickDiff = 600;
-					if (config.warnLargeTickDiff()) {
-						sendChatMessage("Tick set to 600ms because it was over 2500ms long, probably from login or hopping");
-					}
-				}
-				currentTick = tickDiff;
-				lastTickTime = new Date().getTime();
-
-				allTickCounter += 1;
-				tickTimePassed += tickDiff;
-				runningTickAverage = tickTimePassed / allTickCounter;
-				tickWithinRangePercent = (tickWithinRange * 1.0 / allTickCounter) * 100;
-
-				if (tickDiff > config.getThresholdHigh()) {
-					tickOverThresholdHigh += 1;
-				} else if (tickDiff > config.getThresholdMedium()) {
-					tickOverThresholdMedium += 1;
-				} else if (tickDiff > config.getThresholdLow()) {
-					tickOverThresholdLow += 1;
-				} else {
-					tickWithinRange += 1;
-				}
+	public void onGameTick(GameTick tick)
+	{
+		if (disregardCounter < 10)
+		{
+			disregardCounter += 1; //waiting 10 ticks, because ticks upon login or hopping are funky
+		}
+		else
+		{
+			long tickTime = new Date().getTime();
+			int tickDiff = (int) (tickTime - lastTickTime);
+			if (tickDiff > 2500)
+			{
+				tickDiff = 600;
+				if (config.warnLargeTickDiff())
+				{
+					sendChatMessage("Tick set to 600ms because it was over 2500ms long, probably from login or hopping");
 				}
 			}
+			currentTick = tickDiff;
+			lastTickTime = new Date().getTime();
+
+			allTickCounter += 1;
+			tickTimePassed += tickDiff;
+			runningTickAverage = tickTimePassed / allTickCounter;
+			tickWithinRangePercent = (tickWithinRange * 1.0 / allTickCounter) * 100;
+
+			if (tickDiff > config.getThresholdHigh())
+			{
+				tickOverThresholdHigh += 1;
+			}
+			else if (tickDiff > config.getThresholdMedium())
+			{
+				tickOverThresholdMedium += 1;
+			}
+			else if (tickDiff > config.getThresholdLow())
+			{
+				tickOverThresholdLow += 1;
+			}
+			else
+			{
+				tickWithinRange += 1;
+			}
+		}
+	}
 
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged event)
@@ -140,12 +157,12 @@ public class TickTrackerPlugin extends Plugin
 		{
 			case LOGGED_IN:
 			case HOPPING:
-					tickOverThresholdHigh = 0;
-					tickOverThresholdMedium = 0;
-					tickOverThresholdLow = 0;
-					tickWithinRange = 0;
-					runningTickAverage = 0;
-					allTickCounter = 0;
+				tickOverThresholdHigh = 0;
+				tickOverThresholdMedium = 0;
+				tickOverThresholdLow = 0;
+				tickWithinRange = 0;
+				runningTickAverage = 0;
+				allTickCounter = 0;
 		}
 	}
 }
