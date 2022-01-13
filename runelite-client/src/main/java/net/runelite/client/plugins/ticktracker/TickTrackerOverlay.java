@@ -54,13 +54,14 @@ public class TickTrackerOverlay extends OverlayPanel
 
 	private Color colorSelection()
 	{
-		double ticksWithinRange = (plugin.getTickWithinRange() * 1.0 / plugin.getAllTickCounter()) * 100;
+		//double ticksWithinRange = (plugin.getTickWithinRange() * 1.0 / plugin.getAllTickCounter()) * 100;
+
 		Color colorSelection;
-		if (ticksWithinRange > config.warningColorThreshold())
+		if (plugin.getTickWithinRangePercent() > config.warningColorThreshold())
 		{
 			colorSelection = Color.GREEN;
 		}
-		else if (ticksWithinRange > config.warningColorThreshold() - 2)
+		else if (plugin.getTickWithinRangePercent() > config.warningColorThreshold() - 2)
 		{
 			colorSelection = Color.YELLOW;
 		}
@@ -77,19 +78,19 @@ public class TickTrackerOverlay extends OverlayPanel
 			.text("Ticks")
 			.build());
 		panelComponent.getChildren().add(LineComponent.builder()
-			.right(plugin.getTickOverThresholdHigh() + " (" + String.format("%.2f", (plugin.getTickOverThresholdHigh() * 1.0 / plugin.getAllTickCounter()) * 100) + " %)")
+			.right(plugin.getTickOverThresholdHigh() + " (" + String.format("%.2f",(plugin.getTickOverThresholdHigh() * 1.0 / plugin.getAllTickCounter()) * 100) + " %)")
 			.left(">" + config.getThresholdHigh())
 			.build());
 		panelComponent.getChildren().add(LineComponent.builder()
-			.right(plugin.getTickOverThresholdMedium() + " (" + String.format("%.2f", (plugin.getTickOverThresholdMedium() * 1.0 / plugin.getAllTickCounter()) * 100) + " %)")
+			.right(plugin.getTickOverThresholdMedium() + " (" + String.format("%.2f",(plugin.getTickOverThresholdMedium() * 1.0 / plugin.getAllTickCounter()) * 100) + " %)")
 			.left(">" + config.getThresholdMedium())
 			.build());
 		panelComponent.getChildren().add(LineComponent.builder()
-			.right((plugin.getTickOverThresholdLow()) + " (" + String.format("%.2f", (plugin.getTickOverThresholdLow() * 1.0 / plugin.getAllTickCounter()) * 100) + " %)")
+			.right((plugin.getTickOverThresholdLow()) + " (" + String.format("%.2f",(plugin.getTickOverThresholdLow() * 1.0 / plugin.getAllTickCounter()) * 100) + " %)")
 			.left(">" + config.getThresholdLow())
 			.build());
 		panelComponent.getChildren().add(LineComponent.builder()
-			.right(plugin.getTickWithinRange() + " (" + String.format("%.2f", (plugin.getTickWithinRange() * 1.0 / plugin.getAllTickCounter()) * 100) + " %)")
+			.right(plugin.getTickWithinRange() + " (" + String.format("%.2f",(plugin.getTickWithinRange() * 1.0 / plugin.getAllTickCounter()) * 100) + " %)")
 			.left("Good")
 			.build());
 		panelComponent.getChildren().add(LineComponent.builder()
@@ -110,14 +111,14 @@ public class TickTrackerOverlay extends OverlayPanel
 	{
 		if (config.drawSmallOverlay())
 		{
+			// taken from the fps plugin
 			Widget logoutButton = client.getWidget(WidgetInfo.RESIZABLE_MINIMAP_LOGOUT_BUTTON);
 			int xOffset = X_OFFSET;
 			if (logoutButton != null && !logoutButton.isHidden())
 			{
 				xOffset += logoutButton.getWidth();
 			}
-			double ticksWithinRangePercent = (plugin.getTickWithinRange() * 1.0 / plugin.getAllTickCounter()) * 100;
-			final String text = String.format("%.2f",ticksWithinRangePercent) + "%";
+			final String text = String.format("%.2f",plugin.getTickWithinRangePercent()) + "%";
 			final int textWidth = graphics.getFontMetrics().stringWidth(text);
 			final int textHeight = graphics.getFontMetrics().getAscent() - graphics.getFontMetrics().getDescent();
 

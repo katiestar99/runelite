@@ -44,7 +44,6 @@ public class TickTrackerPlugin extends Plugin
 						.runeLiteFormattedMessage(message)
 						.build());
 	}
-
 	@Inject
 	private Client client;
 
@@ -82,6 +81,8 @@ public class TickTrackerPlugin extends Plugin
 	@Getter
 	private int runningTickAverage = 0;
 	@Getter
+	private double tickWithinRangePercent = 0;
+	@Getter
 	int disregardCounter = 0;
 
 	@Provides
@@ -118,6 +119,7 @@ public class TickTrackerPlugin extends Plugin
 				allTickCounter += 1;
 				tickTimePassed += tickDiff;
 				runningTickAverage = tickTimePassed / allTickCounter;
+				tickWithinRangePercent = (tickWithinRange * 1.0 / allTickCounter) * 100;
 
 				if (tickDiff > config.getThresholdHigh()) {
 					tickOverThresholdHigh += 1;
