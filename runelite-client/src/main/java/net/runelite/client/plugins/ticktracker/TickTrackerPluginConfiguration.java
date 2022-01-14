@@ -11,7 +11,7 @@ public interface TickTrackerPluginConfiguration extends Config
 	@ConfigItem(
 		keyName = "thresholdHigh",
 		name = "Threshold High",
-		description = "description",
+		description = "Threshold for high tick latency",
 		position = 2
 	)
 	default int getThresholdHigh()
@@ -22,7 +22,7 @@ public interface TickTrackerPluginConfiguration extends Config
 	@ConfigItem(
 		keyName = "thresholdMedium",
 		name = "Threshold Medium",
-		description = "description",
+		description = "Threshold for medium tick latency",
 		position = 3
 	)
 	default int getThresholdMedium()
@@ -33,7 +33,7 @@ public interface TickTrackerPluginConfiguration extends Config
 	@ConfigItem(
 		keyName = "thresholdLow",
 		name = "Threshold Low",
-		description = "description",
+		description = "Threshold for low tick latency",
 		position = 4
 	)
 	default int getThresholdLow()
@@ -44,7 +44,7 @@ public interface TickTrackerPluginConfiguration extends Config
 	@ConfigItem(
 		keyName = "drawLargeOverlay",
 		name = "Show extra information",
-		description = "Show set thresholds, how many ticks are in each category and the percentage amount of each category",
+		description = "Show set thresholds and each category's quantity of ticks and percentage of total ticks",
 		position = 1
 	)
 	default boolean drawLargeOverlay()
@@ -55,7 +55,7 @@ public interface TickTrackerPluginConfiguration extends Config
 	@ConfigItem(
 		keyName = "drawSmallOverlay",
 		name = "Draw Small overlay",
-		description = "description",
+		description = "Whether to draw a small overlay",
 		position = 5
 	)
 	default boolean drawSmallOverlay()
