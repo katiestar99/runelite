@@ -150,6 +150,7 @@ public class TickTrackerPlugin extends Plugin
 		}
 	}
 //test test
+	//new test
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged event)
 	{
